@@ -163,45 +163,94 @@ CREATE TABLE Mapa (
 
 --Tablas de relaciones
 CREATE TABLE Jugador_Tiene_Personaje (
-
+    emailJugador VARCHAR(40) NOT NULL,
+    idPersonaje NUMBER(5) NOT NULL,
+    PRIMARY KEY (emailJugador, idPersonaje),
+    FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
+    FOREIGN KEY (idPersonaje) REFERENCES Personaje(id)
 );
 
 CREATE TABLE Personaje_Posee_Habilidades (
-
+    emailJugador VARCHAR(40) NOT NULL,
+    idPersonaje NUMBER(5) NOT NULL,
+    nombreHabilidad VARCHAR(20) NOT NULL,
+    PRIMARY KEY (emailJugador, idPersonaje, nombreHabilidad),
+    FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
+    FOREIGN KEY (idPersonaje) REFERENCES Personaje(id),
+    FOREIGN KEY (nombreHabilidad) REFERENCES Habilidad(nombre)
 );
 
 CREATE TABLE Personaje_Posee_Items (
-
+    emailJugador VARCHAR(40) NOT NULL,
+    idPersonaje NUMBER(5) NOT NULL,
+    nombreItem VARCHAR(20) NOT NULL,
+    equipado BOOLEAN NOT NULL,
+    PRIMARY KEY (emailJugador, idPersonaje, nombreItem),
+    FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
+    FOREIGN KEY (idPersonaje) REFERENCES Personaje(id),
+    FOREIGN KEY (nombreItem) REFERENCES Items(nombre)
 );
 
 CREATE TABLE Jefe_Tiene_Habilidades (
-
+    nombreJefe VARCHAR(20) NOT NULL,
+    nombreHabilidad VARCHAR(20) NOT NULL,
+    PRIMARY KEY (nombreJefe, nombreHabilidad),
+    FOREIGN KEY (nombreJefe) REFERENCES Jefe(nombre),
+    FOREIGN KEY (nombreHabilidad) REFERENCES Habilidad(nombre)
 );
 
 CREATE TABLE Enemigo_Habita_En_Zona (
-
+    nombreZona VARCHAR(20) NOT NULL,
+    nombreEnemigo VARCHAR(20) NOT NULL,
+    PRIMARY KEY (nombreZona, nombreEnemigo),
+    FOREIGN KEY (nombreZona) REFERENCES Zona(nombre),
+    FOREIGN KEY (nombreEnemigo) REFERENCES Enemigo(nombre)
 );
 
 CREATE TABLE Jefe_Aparece_En_Mision (
-
+    codigoMision NUMBER(5) NOT NULL,
+    nombreJefe VARCHAR(20) NOT NULL,
+    PRIMARY KEY (codigoMision, nombreJefe),
+    FOREIGN KEY (codigoMision) REFERENCES Mision(codigo),
+    FOREIGN KEY (nombreJefe) REFERENCES EnemigoJefe(nombre)
 );
 
 CREATE TABLE Enemigo_Deja_Recompensa (
-
+    nombreEnemigo VARCHAR(20) NOT NULL,
+    idRecompensa NUMBER(5) NOT NULL,
+    PRIMARY KEY (nombreEnemigo, idRecompensa),
+    FOREIGN KEY (nombreEnemigo) REFERENCES Enemigo(nombre),
+    FOREIGN KEY (idRecompensa) REFERENCES Recompensa(id)
 );
 
 CREATE TABLE Mision_Da_Recompensa (
-
+    codMision NUMBER(5) NOT NULL,
+    idRecompensa NUMBER(5) NOT NULL,
+    PRIMARY KEY (codMision, idRecompensa),
+    FOREIGN KEY (codMision) REFERENCES Mision(codigo),
+    FOREIGN KEY (idRecompensa) REFERENCES Recompensa(id)
 );
 
 CREATE TABLE Recompensa_Posee_Item (
-
+    nombreItem VARCHAR(20) NOT NULL,
+    idRecompensa NUMBER(5) NOT NULL,
+    PRIMARY KEY (nombreItem, idRecompensa),
+    FOREIGN KEY (nombreItem) REFERENCES Items(nombre),
+    FOREIGN KEY (idRecompensa) REFERENCES Recompensa(id)
 );
 
 CREATE TABLE Mision_Es_Previa_De_Mision (
-
+    codMision1 NUMBER(5) NOT NULL,
+    codMision2 NUMBER(5) NOT NULL,
+    PRIMARY KEY (codMision1, codMision2),
+    FOREIGN KEY (codMision1) REFERENCES Mision(codigo),
+    FOREIGN KEY (codMision2) REFERENCES Mision(codigo)
 );
 
 CREATE TABLE Mision_Es_Previa_De_Zona (
-
+    codMision NUMBER(5) NOT NULL,
+    nombreZona VARCHAR(20) NOT NULL,
+    PRIMARY KEY (codMision, nombreZona),
+    FOREIGN KEY (codMision) REFERENCES Mision(codigo),
+    FOREIGN KEY (nombreZona) REFERENCES Zona(nombre)
 );
