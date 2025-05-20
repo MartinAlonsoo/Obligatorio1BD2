@@ -1,39 +1,35 @@
 ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY';
 
-BEGIN
-    EXECUTE IMMEDIATE 'DROP TABLE Mision_Es_Previa_De_Zona CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Mision_Es_Previa_De_Mision CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Recompensa_Posee_Item CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Mision_Da_Recompensa CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Enemigo_Deja_Recompensa CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Jefe_Aparece_En_Mision CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Enemigo_Habita_En_Zona CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Jefe_Tiene_Habilidades CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Personaje_Posee_Items CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Personaje_Posee_Habilidades CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Jugador_Tiene_Personaje CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Mapa CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Item_Material CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Item_Consumible CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Item_Armadura CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Item_Arma CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Item_Reliquia CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Item CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Misiones CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Recompensa CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Zona CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE EnemigoJefe CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE EnemigoElite CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE EnemigoNormal CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Enemigo CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Habilidades CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Personaje CASCADE CONSTRAINTS';
-    EXECUTE IMMEDIATE 'DROP TABLE Jugador CASCADE CONSTRAINTS';
-EXCEPTION
-    WHEN OTHERS THEN
-        NULL; -- Ignora errores si la tabla no existe
-END;
-
+    DROP TABLE Mision_Es_Previa_De_Zona CASCADE CONSTRAINTS;
+    DROP TABLE Mision_Es_Previa_De_Mision CASCADE CONSTRAINTS;
+    DROP TABLE Recompensa_Posee_Item CASCADE CONSTRAINTS;
+    DROP TABLE Mision_Da_Recompensa CASCADE CONSTRAINTS;
+    DROP TABLE Enemigo_Deja_Recompensa CASCADE CONSTRAINTS;
+    DROP TABLE Jefe_Aparece_En_Mision CASCADE CONSTRAINTS;
+    DROP TABLE Enemigo_Habita_En_Zona CASCADE CONSTRAINTS;
+    DROP TABLE Jefe_Tiene_Habilidades CASCADE CONSTRAINTS;
+    DROP TABLE Personaje_Posee_Items CASCADE CONSTRAINTS;
+    DROP TABLE Personaje_Posee_Habilidades CASCADE CONSTRAINTS;
+    --DROP TABLE Jugador_Tiene_Personaje CASCADE CONSTRAINTS;
+    DROP TABLE Mapa CASCADE CONSTRAINTS;
+    DROP TABLE CaracteristicaAfectada CASCADE CONSTRAINTS;
+    DROP TABLE Item_Material CASCADE CONSTRAINTS;
+    DROP TABLE Item_Consumible CASCADE CONSTRAINTS;
+    DROP TABLE Item_Armadura CASCADE CONSTRAINTS;
+    DROP TABLE Item_Arma CASCADE CONSTRAINTS;
+    DROP TABLE Item_Reliquia CASCADE CONSTRAINTS;
+    DROP TABLE Items CASCADE CONSTRAINTS;
+    DROP TABLE Misiones CASCADE CONSTRAINTS;
+    DROP TABLE Recompensa CASCADE CONSTRAINTS;
+    DROP TABLE Zona CASCADE CONSTRAINTS;
+    DROP TABLE EnemigoJefe CASCADE CONSTRAINTS;
+    DROP TABLE EnemigoElite CASCADE CONSTRAINTS;
+    DROP TABLE EnemigoNormal CASCADE CONSTRAINTS;
+    DROP TABLE Enemigo CASCADE CONSTRAINTS;
+    DROP TABLE Habilidades CASCADE CONSTRAINTS;
+    DROP TABLE Personaje CASCADE CONSTRAINTS;
+    DROP TABLE Jugador CASCADE CONSTRAINTS;
+    
 
 -- Tablas de entidades
 CREATE TABLE Jugador (
@@ -42,28 +38,30 @@ CREATE TABLE Jugador (
     email VARCHAR2(40) PRIMARY KEY,
     contrasena VARCHAR2(40) NOT NULL,
     nombrePais VARCHAR2(20) NOT NULL,
-    cantHoras NUMBER(5) NOT NULL CHECK (cantHoras <= 0),
+    cantHoras NUMBER(5) NOT NULL CHECK (cantHoras >= 0),
     nombreRegion VARCHAR2(20) NOT NULL
 );
 
  
 CREATE TABLE Personaje (
-    id NUMBER(5) UNIQUE NOT NULL,
-    FOREIGN KEY (email_Jugador) REFERENCES Jugador(email),
-    PRIMARY Key (email_Jugador, id),
+    id NUMBER(5) NOT NULL,
+    email_Jugador VARCHAR2(40) NOT NULL,
     especie VARCHAR2(10) NOT NULL CHECK(especie IN ('Bestia','Espíritu', 'Humano', 'Demonio')),
-    fuerza NUMBER(10) NOT NULL CHECK(fuerza <= 100 AND fuerza >= 0),
-    agilidad NUMBER(10) NOT NULL CHECK(agilidad <= 100 AND agilidad >= 0),
-    intelifencia NUMBER(10) NOT NULL CHECK(intelifencia <= 100 AND intelifencia >= 0),
-    vitalidad NUMBER(10) NOT NULL CHECK(vitalidad <= 100 AND vitalidad >= 0),
-    resistencia NUMBER(10) NOT NULL CHECK(resistencia <= 100 AND resistencia >= 0),
-    nivel NUMBER(10) NOT NULL CHECK(nivel <= 342 AND nivel >= 0),
-    cantMonedas NUMBER(10) NOT NULL
+    fuerza NUMBER(10) NOT NULL CHECK(fuerza BETWEEN 0 AND 100),
+    agilidad NUMBER(10) NOT NULL CHECK(agilidad BETWEEN 0 AND 100),
+    intelifencia NUMBER(10) NOT NULL CHECK(intelifencia BETWEEN 0 AND 100),
+    vitalidad NUMBER(10) NOT NULL CHECK(vitalidad BETWEEN 0 AND 100),
+    resistencia NUMBER(10) NOT NULL CHECK(resistencia BETWEEN 0 AND 100),
+    nivel NUMBER(10) NOT NULL CHECK(nivel BETWEEN 0 AND 342),
+    cantMonedas NUMBER(10) NOT NULL,
+    PRIMARY KEY (email_Jugador, id),
+    FOREIGN KEY (email_Jugador) REFERENCES Jugador(email)
 );
+
   
 CREATE TABLE Habilidades (
     nombre VARCHAR2(20) PRIMARY KEY,
-    nivelMin NUMBER(3) NOT NULL CHECK (nivel <= 342 AND nivel >= 0),
+    nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0),
     tipoEnergia VARCHAR2(10) NOT NULL CHECK(tipoEnergia IN ('Energia','Mana')),
     clasificacion VARCHAR2(10) NOT NULL CHECK(clasificacion IN ('Ataque', 'Defensa', 'Magia'))
 );
@@ -94,7 +92,7 @@ CREATE TABLE EnemigoJefe (
 CREATE TABLE Zona (
     nombre VARCHAR2(20) PRIMARY KEY,
     descripcion VARCHAR2(50) NOT NULL,
-    nivelMin NUMBER(3) NOT NULL CHECK (nivel <= 342 AND nivel >= 0)
+    nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0)
 );
 CREATE TABLE Recompensa (
     id NUMBER(5) PRIMARY KEY,
@@ -105,7 +103,7 @@ CREATE TABLE Misiones (
     id NUMBER(5) PRIMARY KEY,
     nombre VARCHAR2(20) NOT NULL,
     descripcion VARCHAR2(50) NOT NULL,
-    nivelMin NUMBER(3) NOT NULL CHECK (nivel <= 342 AND nivel >= 0),
+    nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0),
     estado VARCHAR2(10) NOT NULL CHECK(estado IN ('Principal','Secundaria', 'Especial'))
 );
 
@@ -162,13 +160,13 @@ CREATE TABLE Mapa (
 );
 
 --Tablas de relaciones
-CREATE TABLE Jugador_Tiene_Personaje (
-    emailJugador VARCHAR(40) NOT NULL,
-    idPersonaje NUMBER(5) NOT NULL,
-    PRIMARY KEY (emailJugador, idPersonaje),
-    FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
-    FOREIGN KEY (idPersonaje) REFERENCES Personaje(id)
-);
+--CREATE TABLE Jugador_Tiene_Personaje (
+--    emailJugador VARCHAR(40) NOT NULL,
+--    idPersonaje NUMBER(5) NOT NULL,
+--    PRIMARY KEY (emailJugador, idPersonaje),
+--    FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
+--    FOREIGN KEY (emailJugador, idPersonaje) REFERENCES Personaje(email_Jugador, id)
+--);
 
 CREATE TABLE Personaje_Posee_Habilidades (
     emailJugador VARCHAR(40) NOT NULL,
@@ -176,18 +174,18 @@ CREATE TABLE Personaje_Posee_Habilidades (
     nombreHabilidad VARCHAR(20) NOT NULL,
     PRIMARY KEY (emailJugador, idPersonaje, nombreHabilidad),
     FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
-    FOREIGN KEY (idPersonaje) REFERENCES Personaje(id),
-    FOREIGN KEY (nombreHabilidad) REFERENCES Habilidad(nombre)
+    FOREIGN KEY (emailJugador, idPersonaje) REFERENCES Personaje(email_Jugador, id),
+    FOREIGN KEY (nombreHabilidad) REFERENCES Habilidades(nombre)
 );
 
 CREATE TABLE Personaje_Posee_Items (
     emailJugador VARCHAR(40) NOT NULL,
     idPersonaje NUMBER(5) NOT NULL,
     nombreItem VARCHAR(20) NOT NULL,
-    equipado BOOLEAN NOT NULL,
+    equipado CHAR(1) NOT NULL CHECK (equipado IN ('S', 'N')),
     PRIMARY KEY (emailJugador, idPersonaje, nombreItem),
     FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
-    FOREIGN KEY (idPersonaje) REFERENCES Personaje(id),
+    FOREIGN KEY (emailJugador, idPersonaje) REFERENCES Personaje(email_Jugador, id),
     FOREIGN KEY (nombreItem) REFERENCES Items(nombre)
 );
 
@@ -195,8 +193,8 @@ CREATE TABLE Jefe_Tiene_Habilidades (
     nombreJefe VARCHAR(20) NOT NULL,
     nombreHabilidad VARCHAR(20) NOT NULL,
     PRIMARY KEY (nombreJefe, nombreHabilidad),
-    FOREIGN KEY (nombreJefe) REFERENCES Jefe(nombre),
-    FOREIGN KEY (nombreHabilidad) REFERENCES Habilidad(nombre)
+    FOREIGN KEY (nombreJefe) REFERENCES EnemigoJefe(nombre),
+    FOREIGN KEY (nombreHabilidad) REFERENCES Habilidades(nombre)
 );
 
 CREATE TABLE Enemigo_Habita_En_Zona (
@@ -211,7 +209,7 @@ CREATE TABLE Jefe_Aparece_En_Mision (
     codigoMision NUMBER(5) NOT NULL,
     nombreJefe VARCHAR(20) NOT NULL,
     PRIMARY KEY (codigoMision, nombreJefe),
-    FOREIGN KEY (codigoMision) REFERENCES Mision(codigo),
+    FOREIGN KEY (codigoMision) REFERENCES Misiones(id),
     FOREIGN KEY (nombreJefe) REFERENCES EnemigoJefe(nombre)
 );
 
@@ -227,7 +225,7 @@ CREATE TABLE Mision_Da_Recompensa (
     codMision NUMBER(5) NOT NULL,
     idRecompensa NUMBER(5) NOT NULL,
     PRIMARY KEY (codMision, idRecompensa),
-    FOREIGN KEY (codMision) REFERENCES Mision(codigo),
+    FOREIGN KEY (codMision) REFERENCES Misiones(id),
     FOREIGN KEY (idRecompensa) REFERENCES Recompensa(id)
 );
 
@@ -243,14 +241,14 @@ CREATE TABLE Mision_Es_Previa_De_Mision (
     codMision1 NUMBER(5) NOT NULL,
     codMision2 NUMBER(5) NOT NULL,
     PRIMARY KEY (codMision1, codMision2),
-    FOREIGN KEY (codMision1) REFERENCES Mision(codigo),
-    FOREIGN KEY (codMision2) REFERENCES Mision(codigo)
+    FOREIGN KEY (codMision1) REFERENCES Misiones(id),
+    FOREIGN KEY (codMision2) REFERENCES Misiones(id)
 );
 
 CREATE TABLE Mision_Es_Previa_De_Zona (
     codMision NUMBER(5) NOT NULL,
     nombreZona VARCHAR(20) NOT NULL,
     PRIMARY KEY (codMision, nombreZona),
-    FOREIGN KEY (codMision) REFERENCES Mision(codigo),
+    FOREIGN KEY (codMision) REFERENCES Misiones(id),
     FOREIGN KEY (nombreZona) REFERENCES Zona(nombre)
 );
