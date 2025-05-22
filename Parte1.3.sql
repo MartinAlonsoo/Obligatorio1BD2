@@ -39,14 +39,14 @@ CREATE TABLE Jugador (
     contrasena VARCHAR2(40) NOT NULL,
     nombrePais VARCHAR2(20) NOT NULL,
     cantHoras NUMBER(5) NOT NULL CHECK (cantHoras >= 0),
-    nombreRegion VARCHAR2(20) NOT NULL
+    nombreRegion VARCHAR2(20) NOT NULL CHECK (nombreRegion IN ('AMERICA', 'AFRICA', 'EUROPA', 'ASIA', 'OCEANIA'))
 );
 
  
 CREATE TABLE Personaje (
-    id NUMBER(5) NOT NULL,
-    email_Jugador VARCHAR2(40) NOT NULL,
-    especie VARCHAR2(10) NOT NULL CHECK(especie IN ('Bestia','Espíritu', 'Humano', 'Demonio')),
+    email_Jugador VARCHAR2(40) PRIMARY KEY,
+    id NUMBER(5) UNIQUE NOT NULL,
+    especie VARCHAR2(10) NOT NULL CHECK (especie IN ('Bestia','Espíritu', 'Humano', 'Demonio')),
     fuerza NUMBER(10) NOT NULL CHECK(fuerza BETWEEN 0 AND 100),
     agilidad NUMBER(10) NOT NULL CHECK(agilidad BETWEEN 0 AND 100),
     intelifencia NUMBER(10) NOT NULL CHECK(intelifencia BETWEEN 0 AND 100),
@@ -54,9 +54,10 @@ CREATE TABLE Personaje (
     resistencia NUMBER(10) NOT NULL CHECK(resistencia BETWEEN 0 AND 100),
     nivel NUMBER(10) NOT NULL CHECK(nivel BETWEEN 0 AND 342),
     cantMonedas NUMBER(10) NOT NULL,
-    PRIMARY KEY (email_Jugador, id),
     FOREIGN KEY (email_Jugador) REFERENCES Jugador(email)
 );
+
+
 
   
 CREATE TABLE Habilidades (
@@ -174,7 +175,7 @@ CREATE TABLE Personaje_Posee_Habilidades (
     nombreHabilidad VARCHAR(20) NOT NULL,
     PRIMARY KEY (emailJugador, idPersonaje, nombreHabilidad),
     FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
-    FOREIGN KEY (emailJugador, idPersonaje) REFERENCES Personaje(email_Jugador, id),
+    FOREIGN KEY (emailJugador) REFERENCES Personaje(email_Jugador),
     FOREIGN KEY (nombreHabilidad) REFERENCES Habilidades(nombre)
 );
 
@@ -185,7 +186,7 @@ CREATE TABLE Personaje_Posee_Items (
     equipado CHAR(1) NOT NULL CHECK (equipado IN ('S', 'N')),
     PRIMARY KEY (emailJugador, idPersonaje, nombreItem),
     FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
-    FOREIGN KEY (emailJugador, idPersonaje) REFERENCES Personaje(email_Jugador, id),
+    FOREIGN KEY (emailJugador) REFERENCES Personaje(email_Jugador),
     FOREIGN KEY (nombreItem) REFERENCES Items(nombre)
 );
 
