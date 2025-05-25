@@ -49,7 +49,7 @@ CREATE TABLE Personaje (
     especie VARCHAR2(10) NOT NULL CHECK (especie IN ('Bestia','Espíritu', 'Humano', 'Demonio')),
     fuerza NUMBER(10) NOT NULL CHECK(fuerza BETWEEN 0 AND 100),
     agilidad NUMBER(10) NOT NULL CHECK(agilidad BETWEEN 0 AND 100),
-    intelifencia NUMBER(10) NOT NULL CHECK(intelifencia BETWEEN 0 AND 100),
+    inteligencia NUMBER(10) NOT NULL CHECK(intelifencia BETWEEN 0 AND 100),
     vitalidad NUMBER(10) NOT NULL CHECK(vitalidad BETWEEN 0 AND 100),
     resistencia NUMBER(10) NOT NULL CHECK(resistencia BETWEEN 0 AND 100),
     nivel NUMBER(10) NOT NULL CHECK(nivel BETWEEN 0 AND 342),
@@ -174,7 +174,6 @@ CREATE TABLE Personaje_Posee_Habilidades (
     idPersonaje NUMBER(5) NOT NULL,
     nombreHabilidad VARCHAR(20) NOT NULL,
     PRIMARY KEY (emailJugador, idPersonaje, nombreHabilidad),
-    FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
     FOREIGN KEY (emailJugador) REFERENCES Personaje(email_Jugador),
     FOREIGN KEY (nombreHabilidad) REFERENCES Habilidades(nombre)
 );
@@ -185,7 +184,6 @@ CREATE TABLE Personaje_Posee_Items (
     nombreItem VARCHAR(20) NOT NULL,
     equipado CHAR(1) NOT NULL CHECK (equipado IN ('S', 'N')),
     PRIMARY KEY (emailJugador, idPersonaje, nombreItem),
-    FOREIGN KEY (emailJugador) REFERENCES Jugador(email),
     FOREIGN KEY (emailJugador) REFERENCES Personaje(email_Jugador),
     FOREIGN KEY (nombreItem) REFERENCES Items(nombre)
 );
