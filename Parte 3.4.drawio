@@ -10,10 +10,10 @@
         <mxCell id="dyT2JQhfOkfs-Pqw11Wl-2" value="Personaje p1" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="390" y="620" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-3" value="Personaje_Posee_Habilidades" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="815" y="490" width="170" height="50" as="geometry" />
+        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-3" value="Personaje_Posee_Habilidades pph" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="815" y="490" width="195" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-4" value="Habilidades" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-4" value="Habilidades h" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="1140" y="395" width="100" height="40" as="geometry" />
         </mxCell>
         <mxCell id="dyT2JQhfOkfs-Pqw11Wl-5" value="Personaje_Posee_Items ppi" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
