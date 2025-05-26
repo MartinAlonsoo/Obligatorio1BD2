@@ -93,13 +93,16 @@ CREATE TABLE EnemigoJefe (
 CREATE TABLE Zona (
     nombre VARCHAR2(20) CONSTRAINT pk_Zona PRIMARY KEY,
     descripcion VARCHAR2(50) NOT NULL,
-    nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0)
+    nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0),
+    limites NUMBER(5) NOT NULL
 );
+
 CREATE TABLE Recompensa (
     id NUMBER(5) CONSTRAINT pk_Recompensa PRIMARY KEY,
     cantMonedas NUMBER(10) NOT NULL,
     cantExperiencia NUMBER(10) NOT NULL
 );
+
 CREATE TABLE Misiones (
     id NUMBER(5) CONSTRAINT pk_Misiones PRIMARY KEY,
     nombre VARCHAR2(20) NOT NULL,

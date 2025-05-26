@@ -62,15 +62,8 @@ INSERT INTO EnemigoElite  (nombre) VALUES ('Tigre Demonio');
 INSERT INTO EnemigoJefe   (nombre, habilidadEspecial) VALUES ('Rey Toro', 'Carga Infernal');
 
 -- Zonas
-INSERT INTO Zona 
-  (nombre, descripcion, nivelMin)
-VALUES
-  ('Bosque de Bambú', 'Una zona con espeso follaje y enemigos veloces.', 10);
-
-INSERT INTO Zona 
-  (nombre, descripcion, nivelMin)
-VALUES
-  ('Volcán Ardiente', 'Zona final con lava y jefes de fuego.', 100);
+INSERT INTO Zona VALUES ('Bosque de Bambú', 'Zona con enemigos veloces y follaje denso.', 10, 500);
+INSERT INTO Zona VALUES ('Volcán Ardiente', 'Zona final con lava y jefes de fuego.', 100, 800);
 
 -- Mapa
 INSERT INTO Mapa (id) VALUES (1);
