@@ -25,7 +25,7 @@
         <mxCell id="dyT2JQhfOkfs-Pqw11Wl-7" value="Item_Reliquia ir" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
           <mxGeometry x="-370" y="620" width="100" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-11" value="⨝&amp;nbsp;&lt;font size=&quot;1&quot;&gt;j1.email=p1.email_Jugador&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-11" value="⨝&amp;nbsp;&lt;span style=&quot;font-size: x-small;&quot;&gt;p1.email_Jugador&lt;/span&gt;&lt;font size=&quot;1&quot;&gt;=&lt;/font&gt;&lt;span style=&quot;font-size: x-small;&quot;&gt;j1.email&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="450" y="190" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="dyT2JQhfOkfs-Pqw11Wl-12" value="" style="endArrow=none;html=1;rounded=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="dyT2JQhfOkfs-Pqw11Wl-11" target="dyT2JQhfOkfs-Pqw11Wl-14" edge="1">
@@ -43,7 +43,7 @@
             <mxPoint x="1310" y="110" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-17" value="⨝ pphnombreHabilidad=h.nombre" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="dyT2JQhfOkfs-Pqw11Wl-17" value="⨝h.nombre=pphnombreHabilidad" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="830" y="50" width="190" height="30" as="geometry" />
         </mxCell>
         <mxCell id="dyT2JQhfOkfs-Pqw11Wl-20" value="⨝ it.nombre=ppi.nombreItem" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -208,8 +208,8 @@
             <mxPoint x="-230" y="585" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="A01Pc4tJOuuBW_noEZ7V-1" value="⨝&amp;nbsp;&lt;font size=&quot;1&quot;&gt;ppi.emailJugador=p1.email_Jugador&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="190" y="240" width="140" height="30" as="geometry" />
+        <mxCell id="A01Pc4tJOuuBW_noEZ7V-1" value="⨝&amp;nbsp;&lt;span style=&quot;font-size: x-small;&quot;&gt;p1.email_Jugador&lt;/span&gt;&lt;font size=&quot;1&quot;&gt;=&lt;/font&gt;&lt;span style=&quot;font-size: x-small;&quot;&gt;ppi.emailJugador&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="189" y="240" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="A01Pc4tJOuuBW_noEZ7V-2" value="" style="endArrow=none;html=1;rounded=0;exitX=0.492;exitY=-0.031;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="tmOnNcEsLkjDSFXpH73o-17" target="A01Pc4tJOuuBW_noEZ7V-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
