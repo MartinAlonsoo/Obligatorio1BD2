@@ -287,9 +287,9 @@ CREATE TABLE Mision_Es_Previa_De_Zona (
 CREATE TABLE Mision_Es_Previa_De_Habilidad (
     codMision  NUMBER(5)    NOT NULL,
     nombre VARCHAR2(20) NOT NULL,
-    CONSTRAINT pk_PreviaMision    PRIMARY KEY (codMision, nombre),
-    CONSTRAINT fk_PreviaZ_Mision FOREIGN KEY (codMision)
+    CONSTRAINT pk_PreviaHabilidad    PRIMARY KEY (codMision, nombre),
+    CONSTRAINT fk_PreviaH_Mision FOREIGN KEY (codMision)
       REFERENCES Misiones(id),
-    CONSTRAINT fk_PreviaZ_Mision   FOREIGN KEY (nombre)
+    CONSTRAINT fk_PreviaH_Habilidad   FOREIGN KEY (nombre)
       REFERENCES Habilidades(nombre)
 );

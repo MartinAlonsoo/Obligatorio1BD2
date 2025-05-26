@@ -17,5 +17,9 @@ AND j1.email IN (SELECT p3.EMAIL_JUGADOR
                   WhERE p3.EMAIL_JUGADOR = ppi.emailJugador
                   AND ppi.NOMBREITEM = it.NOMBRE
                   AND it.RAREZA = 'Legendaria'
-                  AND ir.NOMBREITEM = it.NOMBRE
-                 ) -- verifica que el personaje item reliquia que sea legendario
+                  AND ir.nombre = it.NOMBRE
+                 ); -- verifica que el personaje item reliquia que sea legendario
+
+Select * 
+FROM JUGADOR j1, PERSONAJE p1
+WHERE j1.email = p1.email_Jugador;
