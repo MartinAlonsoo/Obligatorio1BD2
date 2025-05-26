@@ -6,7 +6,7 @@
 INSERT INTO Jugador 
   (nombre, fecha_registro, email, contrasena, nombrePais, cantHoras, nombreRegion)
 VALUES
-  ('WuKong', TO_DATE('01/01/2024','DD/MM/YYYY'), 'wukong@monkey.com', 'pass123', 'China', 50, 'AMERICA');
+  ('JUG1', TO_DATE('01/01/2024','DD/MM/YYYY'), 'wukong@monkey.com', 'pass123', 'China', 50, 'AMERICA');
 
 INSERT INTO Jugador 
   (nombre, fecha_registro, email, contrasena, nombrePais, cantHoras, nombreRegion)
