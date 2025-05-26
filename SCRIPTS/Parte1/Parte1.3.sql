@@ -44,12 +44,12 @@ CREATE TABLE Jugador (
 
  
 CREATE TABLE Personaje (
-    email_Jugador VARCHAR2(40) PRIMARY KEY,
+    email_Jugador VARCHAR2(40) CONSTRAINT pk_personaje PRIMARY KEY,
     id NUMBER(5) UNIQUE NOT NULL,
     especie VARCHAR2(10) NOT NULL CHECK (especie IN ('Bestia','Espíritu', 'Humano', 'Demonio')),
     fuerza NUMBER(10) NOT NULL CHECK(fuerza BETWEEN 0 AND 100),
     agilidad NUMBER(10) NOT NULL CHECK(agilidad BETWEEN 0 AND 100),
-    inteligencia NUMBER(10) NOT NULL CHECK(intelifencia BETWEEN 0 AND 100),
+    inteligencia NUMBER(10) NOT NULL CHECK(inteligencia BETWEEN 0 AND 100),
     vitalidad NUMBER(10) NOT NULL CHECK(vitalidad BETWEEN 0 AND 100),
     resistencia NUMBER(10) NOT NULL CHECK(resistencia BETWEEN 0 AND 100),
     nivel NUMBER(10) NOT NULL CHECK(nivel BETWEEN 0 AND 342),
