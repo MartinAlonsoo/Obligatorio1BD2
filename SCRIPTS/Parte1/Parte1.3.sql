@@ -30,7 +30,7 @@ DROP TABLE Enemigo                        CASCADE CONSTRAINTS;
 DROP TABLE Habilidades                    CASCADE CONSTRAINTS;
 DROP TABLE Personaje                      CASCADE CONSTRAINTS;
 DROP TABLE Jugador                        CASCADE CONSTRAINTS;
-
+DROP TABLE Mision_Es_Previa_De_Habilidad CASCADE CONSTRAINTS;
 -- Tablas de entidades
 
 CREATE TABLE Jugador (
@@ -282,4 +282,14 @@ CREATE TABLE Mision_Es_Previa_De_Zona (
       REFERENCES Misiones(id),
     CONSTRAINT fk_PreviaZ_Zona   FOREIGN KEY (nombreZona)
       REFERENCES Zona(nombre)
+);
+
+CREATE TABLE Mision_Es_Previa_De_Habilidad (
+    codMision  NUMBER(5)    NOT NULL,
+    nombre VARCHAR2(20) NOT NULL,
+    CONSTRAINT pk_PreviaMision    PRIMARY KEY (codMision, nombre),
+    CONSTRAINT fk_PreviaZ_Mision FOREIGN KEY (codMision)
+      REFERENCES Misiones(id),
+    CONSTRAINT fk_PreviaZ_Mision   FOREIGN KEY (nombre)
+      REFERENCES Habilidades(nombre)
 );
