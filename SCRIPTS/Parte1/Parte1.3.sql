@@ -35,7 +35,7 @@ ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/YYYY';
 CREATE TABLE Jugador (
     nombre VARCHAR2(50) UNIQUE NOT NULL,
     fecha_registro DATE NOT NULL,
-    email VARCHAR2(40) PRIMARY KEY,
+    email VARCHAR2(40) CONSTRAINT pk_Jugador PRIMARY KEY,
     contrasena VARCHAR2(40) NOT NULL,
     nombrePais VARCHAR2(20) NOT NULL,
     cantHoras NUMBER(5) NOT NULL CHECK (cantHoras >= 0),
@@ -61,47 +61,47 @@ CREATE TABLE Personaje (
 
   
 CREATE TABLE Habilidades (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Habilidades PRIMARY KEY,
     nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0),
     tipoEnergia VARCHAR2(10) NOT NULL CHECK(tipoEnergia IN ('Energia','Mana')),
     clasificacion VARCHAR2(10) NOT NULL CHECK(clasificacion IN ('Ataque', 'Defensa', 'Magia'))
 );
 
 CREATE TABLE Enemigo (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Enemigo PRIMARY KEY,
     nivel NUMBER(10) NOT NULL,
     tipo VARCHAR2(10) NOT NULL,
     ubicacion VARCHAR2(100)
 );
 
 CREATE TABLE EnemigoNormal (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_EnemigoNormal PRIMARY KEY,
     FOREIGN KEY (nombre) REFERENCES Enemigo(nombre)
 );
 
 CREATE TABLE EnemigoElite (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_EnemigoElite PRIMARY KEY,
     FOREIGN KEY (nombre) REFERENCES Enemigo(nombre)
 );
 
 CREATE TABLE EnemigoJefe (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_EnemigoJefe PRIMARY KEY,
     habilidadEspecial VARCHAR2(100),
     FOREIGN KEY (nombre) REFERENCES Enemigo(nombre)
 );
 
 CREATE TABLE Zona (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Zona PRIMARY KEY,
     descripcion VARCHAR2(50) NOT NULL,
     nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0)
 );
 CREATE TABLE Recompensa (
-    id NUMBER(5) PRIMARY KEY,
+    id NUMBER(5) CONSTRAINT pk_Recompensa PRIMARY KEY,
     cantMonedas NUMBER(10) NOT NULL,
     cantExperiencia NUMBER(10) NOT NULL
 );
 CREATE TABLE Misiones (
-    id NUMBER(5) PRIMARY KEY,
+    id NUMBER(5) CONSTRAINT pk_Misiones PRIMARY KEY,
     nombre VARCHAR2(20) NOT NULL,
     descripcion VARCHAR2(50) NOT NULL,
     nivelMin NUMBER(3) NOT NULL CHECK (nivelMin <= 342 AND nivelMin >= 0),
@@ -110,7 +110,7 @@ CREATE TABLE Misiones (
 
 -- Tabla general de ítems
 CREATE TABLE Items (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Items PRIMARY KEY,
     rareza VARCHAR2(10) NOT NULL 
         CHECK (rareza IN ('Comun','Rara', 'Epica', 'Legendaria')),
     nivelMinUtilizacion NUMBER(3) NOT NULL 
@@ -131,33 +131,33 @@ CREATE TABLE CaracteristicaAfectada (
 
 -- Subtipos de ítem (especialización total, exclusiva)
 CREATE TABLE Item_Arma (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT Item_Arma PRIMARY KEY,
     FOREIGN KEY (nombre) REFERENCES Items(nombre)
 );
 
 CREATE TABLE Item_Armadura (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Item_Armadura PRIMARY KEY,
     FOREIGN KEY (nombre) REFERENCES Items(nombre)
 );
 
 CREATE TABLE Item_Consumible (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Item_Consumible PRIMARY KEY,
     FOREIGN KEY (nombre) REFERENCES Items(nombre)
 );
 
 CREATE TABLE Item_Material (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Item_Material PRIMARY KEY,
     FOREIGN KEY (nombre) REFERENCES Items(nombre)
 );
 
 CREATE TABLE Item_Reliquia (
-    nombre VARCHAR2(20) PRIMARY KEY,
+    nombre VARCHAR2(20) CONSTRAINT pk_Item_Reliquia PRIMARY KEY,
     FOREIGN KEY (nombre) REFERENCES Items(nombre)
 );
 
 
 CREATE TABLE Mapa (
-    id NUMBER(5) PRIMARY KEY
+    id NUMBER(5) CONSTRAINT pk_Mapa PRIMARY KEY
 );
 
 --Tablas de relaciones
@@ -251,3 +251,63 @@ CREATE TABLE Mision_Es_Previa_De_Zona (
     FOREIGN KEY (codMision) REFERENCES Misiones(id),
     FOREIGN KEY (nombreZona) REFERENCES Zona(nombre)
 );
+
+
+
+
+-- 1. Listar los índices definidos sobre JUGADOR
+SELECT
+  ui.index_name,
+  ui.index_type,
+  ui.uniqueness,
+  uc.constraint_name,
+  uc.constraint_type
+FROM user_indexes ui
+LEFT JOIN user_constraints uc
+  ON ui.index_name = uc.index_name
+WHERE ui.table_name = 'JUGADOR'
+ORDER BY ui.index_name;
+
+
+-- Consulta para listar todos los índices generados por Oracle para las tablas de tu esquema
+WITH idx AS (
+  SELECT 
+    ui.table_name,
+    ui.index_name,
+    ui.index_type,
+    ui.uniqueness,
+    uc.constraint_type,
+    uic.column_name
+  FROM user_indexes ui
+  LEFT JOIN user_constraints uc
+    ON ui.index_name = uc.index_name
+  JOIN user_ind_columns uic
+    ON ui.index_name = uic.index_name
+  WHERE ui.table_name IN (
+    -- Incluye aquí todas las tablas de tu DDL, o quita esta línea para listar todas las tablas del esquema
+    'JUGADOR','PERSONAJE','HABILIDADES','ENEMIGO','ENEMIGONORMAL',
+    'ENEMIGOELITE','ENEMIGOJEFE','ZONA','RECOMPENSA','MISIONES',
+    'ITEMS','CARACTERISTICAAFECTADA','ITEM_ARMA','ITEM_ARMADURA',
+    'ITEM_CONSUMIBLE','ITEM_MATERIAL','ITEM_RELIQUIA','MAPA',
+    'PERSONAJE_POSEE_HABILIDADES','PERSONAJE_POSEE_ITEMS',
+    'JEFE_TIENE_HABILIDADES','ENEMIGO_HABITA_EN_ZONA',
+    'JEFE_APARECE_EN_MISION','ENEMIGO_DEJA_RECOMPENSA',
+    'MISION_DA_RECOMPENSA','RECOMPENSA_POSEE_ITEM',
+    'MISION_ES_PREVIA_DE_MISION','MISION_ES_PREVIA_DE_ZONA'
+  )
+)
+SELECT
+  table_name,
+  index_name,
+  column_name,
+  index_type        AS oracle_type,
+  uniqueness,
+  constraint_type,
+  CASE
+    WHEN constraint_type = 'P' THEN 'Índice primario (no denso)'
+    WHEN constraint_type = 'U' THEN 'Índice secundario por clave (denso)'
+    WHEN uniqueness = 'NONUNIQUE' THEN 'Índice secundario por no clave (denso)'
+    ELSE 'Otro'
+  END AS clasificacion
+FROM idx
+ORDER BY table_name, index_name, column_name;
